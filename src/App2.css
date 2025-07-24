@@ -1,0 +1,582 @@
+/* ========== GLOBAL STYLES ========== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #0f1419;
+  color: #ffffff;
+}
+
+/* ========== PROFESSIONAL GRADIENT BACKGROUNDS ========== */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #1a1b3e 0%, #2d1b69 50%, #4c1d95 100%);
+}
+
+.bg-gradient-secondary {
+  background: linear-gradient(135deg, #134e4a 0%, #0f766e 50%, #0d9488 100%);
+}
+
+.bg-gradient-tertiary {
+  background: linear-gradient(135deg, #7c2d12 0%, #ea580c 50%, #f97316 100%);
+}
+
+.bg-gradient-cosmic {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 25%, #4c1d95 50%, #7c3aed 75%, #8b5cf6 100%);
+}
+
+.bg-gradient-sunset {
+  background: linear-gradient(135deg, #7c2d12 0%, #dc2626 25%, #ea580c 50%, #f59e0b 100%);
+}
+
+.bg-gradient-ocean {
+  background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 25%, #0284c7 50%, #0ea5e9 100%);
+}
+
+.bg-gradient-mystic {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 20%, #4c1d95 40%, #7c3aed 60%, #a855f7 80%, #c084fc 100%);
+}
+
+.bg-gradient-gold {
+  background: linear-gradient(135deg, #451a03 0%, #92400e 25%, #d97706 50%, #f59e0b 75%, #fbbf24 100%);
+}
+
+/* ========== ENHANCED GLASS MORPHISM EFFECTS ========== */
+.glass-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transform: translateY(-4px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+}
+
+.glass-card-gold {
+  background: rgba(251, 191, 36, 0.1);
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  border-radius: 24px;
+  box-shadow: 0 12px 40px rgba(251, 191, 36, 0.3);
+}
+
+.glass-card-purple {
+  background: rgba(168, 85, 247, 0.1);
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  border-radius: 24px;
+  box-shadow: 0 12px 40px rgba(168, 85, 247, 0.3);
+}
+
+/* ========== PROFESSIONAL BUTTONS ========== */
+.btn-primary {
+  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%);
+  color: #ffffff;
+  border: none;
+  padding: 16px 32px;
+  border-radius: 16px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(124, 58, 237, 0.6);
+  background: linear-gradient(135deg, #6d28d9 0%, #9333ea 50%, #a855f7 100%);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 8px 20px rgba(124, 58, 237, 0.5);
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #fcd34d 100%);
+  color: #1f2937;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+  text-shadow: none;
+}
+
+.btn-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(245, 158, 11, 0.6);
+  background: linear-gradient(135deg, #d97706 0%, #f59e0b 50%, #fbbf24 100%);
+}
+
+.btn-outline {
+  background: transparent;
+  color: #c084fc;
+  border: 2px solid #c084fc;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-shadow: none;
+}
+
+.btn-outline:hover {
+  background: #c084fc;
+  color: #1f2937;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(192, 132, 252, 0.4);
+}
+
+/* ========== ENHANCED FORM INPUTS ========== */
+.form-input {
+  width: 100%;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.form-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 400;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #c084fc;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 4px rgba(192, 132, 252, 0.2), inset 0 2px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
+}
+
+.form-select {
+  width: 100%;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.form-select:focus {
+  outline: none;
+  border-color: #c084fc;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 4px rgba(192, 132, 252, 0.2), inset 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.form-select option {
+  background: #1f2937;
+  color: white;
+  padding: 12px;
+}
+
+/* ========== MYSTICAL ICON CONTAINERS ========== */
+.icon-container {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.icon-container::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  z-index: -1;
+}
+
+.icon-container.star {
+  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%);
+}
+
+.icon-container.calendar {
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #fcd34d 100%);
+}
+
+.icon-container.user {
+  background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #6366f1 100%);
+}
+
+.icon-container.cosmic {
+  background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%);
+}
+
+/* ========== ENHANCED NUMBER DISPLAY ========== */
+.number-display {
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  letter-spacing: -0.025em;
+}
+
+.number-display.primary {
+  background: linear-gradient(135deg, #c084fc 0%, #a855f7 50%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.number-display.secondary {
+  background: linear-gradient(135deg, #fcd34d 0%, #fbbf24 50%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.number-display.tertiary {
+  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 50%, #2563eb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.number-display.cosmic {
+  background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 30%, #3b82f6 60%, #10b981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ========== ENHANCED ANIMATIONS ========== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mysticalGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(192, 132, 252, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(192, 132, 252, 0.6);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-mystical-glow {
+  animation: mysticalGlow 3s ease-in-out infinite;
+}
+
+.animate-delay-1 {
+  animation-delay: 0.2s;
+}
+
+.animate-delay-2 {
+  animation-delay: 0.4s;
+}
+
+.animate-delay-3 {
+  animation-delay: 0.6s;
+}
+
+/* ========== PROFESSIONAL INSIGHT CARDS ========== */
+.insight-card {
+  padding: 24px;
+  border-left: 4px solid;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.insight-card:hover {
+  transform: translateX(4px);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.insight-card.primary {
+  border-left-color: #c084fc;
+  background: linear-gradient(135deg, rgba(192, 132, 252, 0.08) 0%, rgba(168, 85, 247, 0.05) 100%);
+}
+
+.insight-card.secondary {
+  border-left-color: #fbbf24;
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.08) 0%, rgba(245, 158, 11, 0.05) 100%);
+}
+
+.insight-card.tertiary {
+  border-left-color: #60a5fa;
+  background: linear-gradient(135deg, rgba(96, 165, 250, 0.08) 0%, rgba(59, 130, 246, 0.05) 100%);
+}
+
+.insight-card.cosmic {
+  border-left-color: #ec4899;
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.08) 0%, rgba(139, 92, 246, 0.05) 100%);
+}
+
+/* ========== ENHANCED PATH CARDS ========== */
+.path-card {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.path-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #c084fc, #fbbf24, #60a5fa);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.path-card:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.path-card:hover::before {
+  opacity: 1;
+}
+
+.path-number {
+  background: linear-gradient(135deg, #c084fc 0%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+  font-size: 1.2em;
+  text-shadow: none;
+}
+
+.path-description {
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  line-height: 1.5;
+}
+
+/* ========== ENHANCED TEXT STYLES ========== */
+.text-primary-gradient {
+  background: linear-gradient(135deg, #c084fc 0%, #a855f7 50%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
+
+.text-secondary-gradient {
+  background: linear-gradient(135deg, #fcd34d 0%, #fbbf24 50%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
+
+.text-tertiary-gradient {
+  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 50%, #2563eb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
+
+.text-cosmic-gradient {
+  background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 30%, #3b82f6 60%, #10b981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
+
+/* ========== RESULT CARDS ========== */
+.result-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.result-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #c084fc, transparent);
+  transition: left 0.6s ease;
+}
+
+.result-card:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.result-card:hover::before {
+  left: 100%;
+}
+
+/* ========== ENHANCED RESPONSIVE DESIGN ========== */
+@media (max-width: 768px) {
+  .glass-card {
+    border-radius: 20px;
+    padding: 20px;
+  }
+  
+  .btn-primary, .btn-secondary {
+    padding: 14px 24px;
+    font-size: 15px;
+  }
+  
+  .icon-container {
+    width: 64px;
+    height: 64px;
+  }
+  
+  .number-display {
+    font-size: 2rem;
+  }
+  
+  .path-card, .result-card {
+    padding: 20px;
+  }
+}
+
+/* ========== ENHANCED SCROLLBAR ========== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #c084fc, #a855f7);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #a855f7, #7c3aed);
+}
+
+/* ========== UTILITY CLASSES ========== */
+.backdrop-blur-professional {
+  backdrop-filter: blur(30px) saturate(150%);
+}
+
+.text-shadow-professional {
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.border-gradient-purple {
+  border: 2px solid;
+  border-image: linear-gradient(135deg, #c084fc, #a855f7) 1;
+}
+
+.border-gradient-gold {
+  border: 2px solid;
+  border-image: linear-gradient(135deg, #fbbf24, #f59e0b) 1;
+}
+
+/* ========== ACCESSIBILITY IMPROVEMENTS ========== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.focus-visible:focus-visible {
+  outline: 3px solid #c084fc;
+  outline-offset: 2px;
+}
+
+/* ========== SPECIAL NUMEROLOGY ELEMENTS ========== */
+.numerology-symbol {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #c084fc, #a855f7);
+  color: white;
+  text-align: center;
+  line-height: 40px;
+  font-weight: 700;
+  margin: 0 4px;
+  box-shadow: 0 4px 12px rgba(192, 132, 252, 0.4);
+}
+
+.destiny-number {
+  font-size: 3rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b, #dc2626);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+  text-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+}

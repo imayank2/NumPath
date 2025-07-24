@@ -1,0 +1,472 @@
+/* ========== RESULT PAGE SPECIFIC STYLES ========== */
+
+/* Import base styles from App2.css for consistency */
+/* This file extends App2.css with Result page specific enhancements */
+
+/* ========== RESULT PAGE LAYOUT ========== */
+.result-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 25%, #4c1d95 50%, #7c3aed 75%, #8b5cf6 100%);
+  padding: 2rem 1rem;
+}
+
+.result-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* ========== ENHANCED RESULT HEADER ========== */
+.result-header {
+  margin-bottom: 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 10px 16px;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  backdrop-filter: blur(20px);
+}
+
+.back-button:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateX(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.result-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #fcd34d 0%, #fbbf24 50%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+  letter-spacing: -0.02em;
+}
+
+.result-subtitle {
+  font-size: 1.25rem;
+  color: rgba(192, 132, 252, 0.9);
+  font-weight: 600;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ========== ENHANCED RESULT CARDS ========== */
+.result-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(30px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  padding: 2rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.result-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #c084fc, transparent);
+  transition: left 0.6s ease;
+}
+
+.result-card:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.result-card:hover::before {
+  left: 100%;
+}
+
+/* ========== CORE NUMBERS CARD ========== */
+.core-numbers-card {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%);
+  border-left: 4px solid #fbbf24;
+}
+
+.core-numbers-card .card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(251, 191, 36, 0.2);
+}
+
+.core-numbers-card .icon-container {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  box-shadow: 0 6px 20px rgba(251, 191, 36, 0.4);
+}
+
+.core-numbers-card .card-title {
+  color: #fcd34d;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ========== CURRENT CYCLE CARD ========== */
+.current-cycle-card {
+  background: linear-gradient(135deg, rgba(96, 165, 250, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+  border-left: 4px solid #60a5fa;
+}
+
+.current-cycle-card .card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(96, 165, 250, 0.2);
+}
+
+.current-cycle-card .icon-container {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #60a5fa, #3b82f6);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  box-shadow: 0 6px 20px rgba(96, 165, 250, 0.4);
+}
+
+.current-cycle-card .card-title {
+  color: #93c5fd;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ========== LIFE PATH INSIGHTS CARD ========== */
+.insights-card {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(124, 58, 237, 0.05) 100%);
+  border-left: 4px solid #a855f7;
+  grid-column: span 2;
+}
+
+.insights-card .card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+.insights-card .icon-container {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #a855f7, #7c3aed);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
+}
+
+.insights-card .card-title {
+  color: #c084fc;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ========== NUMBER DISPLAY STYLES ========== */
+.number-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.number-row:last-child {
+  border-bottom: none;
+}
+
+.number-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.number-label {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  font-weight: 500;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.number-value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  letter-spacing: -0.02em;
+}
+
+.number-value.primary {
+  background: linear-gradient(135deg, #fcd34d 0%, #fbbf24 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.number-value.secondary {
+  background: linear-gradient(135deg, #93c5fd 0%, #60a5fa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.number-value.tertiary {
+  background: linear-gradient(135deg, #86efac 0%, #22c55e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ========== INSIGHT SECTIONS ========== */
+.insight-section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  border-left: 4px solid;
+  transition: all 0.3s ease;
+}
+
+.insight-section:hover {
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateX(4px);
+}
+
+.insight-section.birth-insight {
+  border-left-color: #fbbf24;
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.08) 0%, rgba(245, 158, 11, 0.03) 100%);
+}
+
+.insight-section.lifepath-insight {
+  border-left-color: #60a5fa;
+  background: linear-gradient(135deg, rgba(96, 165, 250, 0.08) 0%, rgba(59, 130, 246, 0.03) 100%);
+}
+
+.insight-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.insight-title.birth {
+  color: #fcd34d;
+}
+
+.insight-title.lifepath {
+  color: #93c5fd;
+}
+
+.insight-description {
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.7;
+  font-weight: 400;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* ========== RESPONSIVE GRID ========== */
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.insights-section {
+  grid-column: 1 / -1;
+}
+
+/* ========== ENHANCED ANIMATIONS ========== */
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.shimmer-effect {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200px 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(192, 132, 252, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(192, 132, 252, 0.6);
+  }
+}
+
+.mystical-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* ========== RESPONSIVE ADJUSTMENTS ========== */
+@media (max-width: 768px) {
+  .result-container {
+    padding: 1.5rem 1rem;
+  }
+  
+  .result-title {
+    font-size: 2rem;
+  }
+  
+  .result-card {
+    padding: 1.5rem;
+  }
+  
+  .results-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .number-value {
+    font-size: 1.5rem;
+  }
+  
+  .back-button {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .result-title {
+    font-size: 1.75rem;
+  }
+  
+  .result-card {
+    padding: 1.25rem;
+    border-radius: 20px;
+  }
+  
+  .card-header .icon-container {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .card-title {
+    font-size: 1.1rem;
+  }
+  
+  .number-value {
+    font-size: 1.25rem;
+  }
+  
+  .insight-section {
+    padding: 1.25rem;
+  }
+}
+
+/* ========== PRINT STYLES ========== */
+@media print {
+  .result-container {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .result-card {
+    background: white !important;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+  }
+  
+  .back-button {
+    display: none !important;
+  }
+  
+  .number-value {
+    color: black !important;
+    -webkit-text-fill-color: black !important;
+  }
+}
+
+/* ========== ACCESSIBILITY IMPROVEMENTS ========== */
+@media (prefers-reduced-motion: reduce) {
+  .result-card,
+  .number-row,
+  .insight-section,
+  .back-button {
+    transition: none !important;
+    animation: none !important;
+  }
+  
+  .result-card:hover {
+    transform: none !important;
+  }
+}
+
+.result-card:focus-within,
+.back-button:focus-visible {
+  outline: 3px solid #c084fc;
+  outline-offset: 2px;
+}
+
+/* ========== SPECIAL NUMBER HIGHLIGHTING ========== */
+.master-number {
+  position: relative;
+}
+
+.master-number::after {
+  content: '✨';
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  font-size: 0.8rem;
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
