@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import './Registration.css';
 import { Link } from "react-router-dom";
-
+import axios from 'axios';
 const LoginForm = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    fullName: ''
+    fullName: '',
+    dateOfBirth: '',
+    birthPlace: '',
+    gender: ''
   });
   const [isLogin, setIsLogin] = useState(true);
   const [rememberMe, setRememberMe] = useState(false);
@@ -18,11 +21,32 @@ const LoginForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Add your authentication logic here
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log('Form submitted:', formData);
+  //   // Add your authentication logic here
+  // };
+  const handleSubmit = async (e) => { //to connect with backend
+  e.preventDefault();
+
+  const apiUrl = isLogin 
+    ? 'http://localhost:4000/login'
+    : 'http://localhost:4000/signup';
+
+  try {
+    const response = await axios.post(apiUrl, formData);
+
+    console.log("Response:", response.data);
+
+    // Optionally store token or user info
+    localStorage.setItem('token', response.data.token);
+
+    alert(response.data.message);
+  } catch (error) {
+    console.error("API Error:", error.response?.data || error.message);
+    alert(error.response?.data?.error || "Something went wrong");
+  }
+};
 
   const styles = {
     loginContainer: {
@@ -77,7 +101,7 @@ const LoginForm = () => {
       borderRadius: '20px',
       padding: '40px',
       width: '100%',
-      maxWidth: '450px',
+      maxWidth: '500px',
       border: '1px solid rgba(255, 255, 255, 0.2)',
       boxShadow: '0 25px 50px rgba(0, 0, 0, 0.3)',
       position: 'relative'
@@ -108,10 +132,23 @@ const LoginForm = () => {
       flexDirection: 'column',
       gap: '8px'
     },
+    inputRow: {
+      display: 'flex',
+      gap: '15px'
+    },
+    inputHalf: {
+      flex: 1
+    },
     label: {
       color: 'rgba(255, 255, 255, 0.9)',
       fontSize: '14px',
-      fontWeight: '500'
+      fontWeight: '500',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '6px'
+    },
+    labelIcon: {
+      fontSize: '16px'
     },
     formInput: {
       padding: '15px',
@@ -122,6 +159,17 @@ const LoginForm = () => {
       fontSize: '16px',
       transition: 'all 0.3s ease',
       outline: 'none'
+    },
+    selectInput: {
+      padding: '15px',
+      borderRadius: '10px',
+      border: '1px solid rgba(255, 255, 255, 0.3)',
+      background: 'rgba(255, 255, 255, 0.1)',
+      color: 'white',
+      fontSize: '16px',
+      transition: 'all 0.3s ease',
+      outline: 'none',
+      cursor: 'pointer'
     },
     formInputFocus: {
       border: '1px solid #ffd700',
@@ -289,12 +337,24 @@ const LoginForm = () => {
       fontSize: '12px',
       cursor: 'pointer',
       transition: 'all 0.3s ease',
-      border: '1px solid rgba(255, 255, 255, 0.2)'
+      border: '1px solid rgba(255, 255, 255, 0.2)',
+      textDecoration: 'none'
     },
     navItemActive: {
       background: 'rgba(255, 215, 0, 0.2)',
       color: '#ffd700',
       border: '1px solid rgba(255, 215, 0, 0.3)'
+    },
+    birthDetailsNote: {
+      fontSize: '12px',
+      color: 'rgba(255, 215, 0, 0.8)',
+      fontStyle: 'italic',
+      textAlign: 'center',
+      margin: '10px 0',
+      padding: '8px',
+      background: 'rgba(255, 215, 0, 0.1)',
+      borderRadius: '8px',
+      border: '1px solid rgba(255, 215, 0, 0.2)'
     }
   };
 
@@ -310,7 +370,12 @@ const LoginForm = () => {
           color: rgba(255, 255, 255, 0.5);
         }
         
-        input:focus {
+        select option {
+          background: #2a2a3e;
+          color: white;
+        }
+        
+        input:focus, select:focus {
           border: 1px solid #ffd700 !important;
           box-shadow: 0 0 15px rgba(255, 215, 0, 0.3) !important;
           background: rgba(255, 255, 255, 0.15) !important;
@@ -353,21 +418,87 @@ const LoginForm = () => {
 
           <div style={styles.loginForm}>
             {!isLogin && (
-              <div style={styles.inputGroup}>
-                <label style={styles.label}>Full Name</label>
-                <input
-                  type="text"
-                  name="fullName"
-                  value={formData.fullName}
-                  onChange={handleInputChange}
-                  placeholder="Enter your full name"
-                  style={styles.formInput}
-                />
-              </div>
+              <>
+                <div style={styles.inputGroup}>
+                  <label style={styles.label}>
+                    <span style={styles.labelIcon}>👤</span>
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleInputChange}
+                    placeholder="Enter your full name"
+                    style={styles.formInput}
+                    required
+                  />
+                </div>
+
+                <div style={styles.inputRow}>
+                  <div style={{...styles.inputGroup, ...styles.inputHalf}}>
+                    <label style={styles.label}>
+                      <span style={styles.labelIcon}>🎂</span>
+                      Date of Birth
+                    </label>
+                    <input
+                      type="date"
+                      name="dateOfBirth"
+                      value={formData.dateOfBirth}
+                      onChange={handleInputChange}
+                      style={styles.formInput}
+                      required
+                    />
+                  </div>
+
+                  <div style={{...styles.inputGroup, ...styles.inputHalf}}>
+                    <label style={styles.label}>
+                      <span style={styles.labelIcon}>⚧</span>
+                      Gender
+                    </label>
+                    <select
+                      name="gender"
+                      value={formData.gender}
+                      onChange={handleInputChange}
+                      style={styles.selectInput}
+                      required
+                    >
+                      <option value="">Select Gender</option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Other</option>
+                      <option value="prefer-not-to-say">Prefer not to say</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div style={styles.inputGroup}>
+                  <label style={styles.label}>
+                    <span style={styles.labelIcon}>🌍</span>
+                    Birth Place
+                  </label>
+                  <input
+                    type="text"
+                    name="birthPlace"
+                    value={formData.birthPlace}
+                    onChange={handleInputChange}
+                    placeholder="City, State/Province, Country"
+                    style={styles.formInput}
+                    required
+                  />
+                </div>
+
+                <div style={styles.birthDetailsNote}>
+                  ✨ Birth details are essential for accurate numerological calculations and cosmic insights
+                </div>
+              </>
             )}
 
             <div style={styles.inputGroup}>
-              <label style={styles.label}>Email Address</label>
+              <label style={styles.label}>
+                <span style={styles.labelIcon}>📧</span>
+                Email Address
+              </label>
               <input
                 type="email"
                 name="email"
@@ -380,7 +511,10 @@ const LoginForm = () => {
             </div>
 
             <div style={styles.inputGroup}>
-              <label style={styles.label}>Password</label>
+              <label style={styles.label}>
+                <span style={styles.labelIcon}>🔒</span>
+                Password
+              </label>
               <input
                 type="password"
                 name="password"
@@ -455,21 +589,13 @@ const LoginForm = () => {
         </div>
 
         <div style={styles.bottomNavigation}>
-          {/* <div style={styles.navItems}>
-            <span style={{...styles.navItem, ...styles.navItemActive}} className="nav-item">🏠 Home</span>
-            <span style={styles.navItem} className="nav-item">❓ What is Numerology</span>
-            <span style={styles.navItem} className="nav-item">⭐ Why Important</span>
-            <span style={styles.navItem} className="nav-item">🛤️ Life Path</span>
-            <span style={styles.navItem} className="nav-item">🎯 Destiny Number</span>
-          </div> */}
           <div style={styles.navItems}>
-            <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={{ ...styles.navItem, ...styles.navItemActive }} className="nav-item">🏠 Home</Link>
-            <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={styles.navItem} className="nav-item">❓ What is Numerology</Link>
-            <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={styles.navItem} className="nav-item">⭐ Why Important</Link>
-            <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={styles.navItem} className="nav-item">🛤️ Life Path</Link>
-            <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={styles.navItem} className="nav-item">🎯 Destiny Number</Link>
-</div>
-
+            <a href="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={{ ...styles.navItem, ...styles.navItemActive }} className="nav-item">🏠 Home</a>
+            <a href="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={styles.navItem} className="nav-item">❓ What is Numerology</a>
+            <a href="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={styles.navItem} className="nav-item">⭐ Why Important</a>
+            <a href="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={styles.navItem} className="nav-item">🛤️ Life Path</a>
+            <a href="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={styles.navItem} className="nav-item">🎯 Destiny Number</a>
+          </div>
         </div>
       </div>
     </div>

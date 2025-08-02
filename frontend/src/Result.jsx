@@ -1,6 +1,7 @@
 import React from 'react';
 import { ChevronLeft, Star, Calendar, User } from 'lucide-react';
 import './App.css';
+import { Link } from 'react-router-dom';
 
 const Result = ({ formData, onBack }) => {
   const today = new Date();
@@ -55,6 +56,7 @@ const Result = ({ formData, onBack }) => {
     <div className="result-container">
       <div className="result-content">
         <button onClick={onBack} className="back-button">
+        <Link to="/" className="back-button"></Link>
           <ChevronLeft size={18} /> Back to Calculator
         </button>
 
