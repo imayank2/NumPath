@@ -35,8 +35,8 @@ export default function SoulMateApp() {
 
   const isFormValid = () => {
     return malePartner.fullName && malePartner.birthMonth && malePartner.day && malePartner.year &&
-           femalePartner.fullName && femalePartner.birthMonth && femalePartner.day && femalePartner.year &&
-           malePartner.birthMonth !== 'Select Month' && femalePartner.birthMonth !== 'Select Month';
+          femalePartner.fullName && femalePartner.birthMonth && femalePartner.day && femalePartner.year &&
+          malePartner.birthMonth !== 'Select Month' && femalePartner.birthMonth !== 'Select Month';
   };
 
   const handleCalculate = () => {

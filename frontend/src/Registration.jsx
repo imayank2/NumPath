@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import './Registration.css';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
+
 const LoginForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -13,6 +15,7 @@ const LoginForm = () => {
   });
   const [isLogin, setIsLogin] = useState(true);
   const [rememberMe, setRememberMe] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     setFormData({
@@ -21,32 +24,76 @@ const LoginForm = () => {
     });
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   console.log('Form submitted:', formData);
-  //   // Add your authentication logic here
-  // };
-  const handleSubmit = async (e) => { //to connect with backend
-  e.preventDefault();
+  // Function to handle successful authentication
+  const handleSuccessfulAuth = (userData, token) => {
+    // Set authentication token
+    localStorage.setItem('authToken', token);
+    
+    // Set user data for profile
+    localStorage.setItem('userData', JSON.stringify({
+      name: userData.name || userData.fullName || 'User',
+      email: userData.email || '',
+      phone: userData.phone || '',
+      dateOfBirth: userData.dateOfBirth || userData.date_of_birth || '',
+      gender: userData.gender || '',
+      address: {
+        street: '',
+        city: userData.birthPlace ? userData.birthPlace.split(',')[0] : '',
+        state: userData.birthPlace ? userData.birthPlace.split(',')[1] : '',
+        pincode: '',
+        country: 'India'
+      },
+      occupation: '',
+      bio: '',
+      birthPlace: userData.birthPlace || userData.birth_place || ''
+    }));
 
-  const apiUrl = isLogin 
-    ? 'http://localhost:4000/login'
-    : 'http://localhost:4000/signup';
+    // Navigate to profile page
+    navigate('/');
+  };
 
-  try {
-    const response = await axios.post(apiUrl, formData);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-    console.log("Response:", response.data);
+    const apiUrl = isLogin 
+      ? 'http://localhost:4000/login'
+      : 'http://localhost:4000/signup';
 
-    // Optionally store token or user info
-    localStorage.setItem('token', response.data.token);
+    try {
+      const response = await axios.post(apiUrl, formData);
 
-    alert(response.data.message);
-  } catch (error) {
-    console.error("API Error:", error.response?.data || error.message);
-    alert(error.response?.data?.error || "Something went wrong");
-  }
-};
+      console.log("Response:", response.data);
+
+      // Handle successful authentication
+      if (response.data.token && response.data.user) {
+        handleSuccessfulAuth(response.data.user, response.data.token);
+        
+        // Show success message
+        alert(response.data.message || (isLogin ? 'Login successful!' : 'Registration successful!'));
+        // navigate('/');
+      } else {
+        // Fallback if token structure is different
+        localStorage.setItem('authToken', response.data.token || 'logged-in-' + Date.now());
+        localStorage.setItem('userData', JSON.stringify({
+          name: formData.fullName || 'User',
+          email: formData.email,
+          dateOfBirth: formData.dateOfBirth,
+          gender: formData.gender,
+          birthPlace: formData.birthPlace
+        }));
+        
+        alert(response.data.message);
+        navigate('/');
+      }
+
+    } catch (error) {
+      console.error("API Error:", error.response?.data || error.message);
+      alert(error.response?.data?.error || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const styles = {
     loginContainer: {
@@ -201,20 +248,20 @@ const LoginForm = () => {
       transition: 'all 0.3s ease'
     },
     submitBtn: {
-      background: 'linear-gradient(45deg, #8a2be2, #9966cc)',
+      background: loading ? 'rgba(138, 43, 226, 0.5)' : 'linear-gradient(45deg, #8a2be2, #9966cc)',
       color: 'white',
       border: 'none',
       padding: '15px',
       borderRadius: '10px',
       fontSize: '16px',
       fontWeight: 'bold',
-      cursor: 'pointer',
+      cursor: loading ? 'not-allowed' : 'pointer',
       transition: 'all 0.3s ease',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       gap: '10px',
-      boxShadow: '0 10px 30px rgba(138, 43, 226, 0.4)',
+      boxShadow: loading ? 'none' : '0 10px 30px rgba(138, 43, 226, 0.4)',
       marginTop: '10px'
     },
     submitBtnHover: {
@@ -355,6 +402,9 @@ const LoginForm = () => {
       background: 'rgba(255, 215, 0, 0.1)',
       borderRadius: '8px',
       border: '1px solid rgba(255, 215, 0, 0.2)'
+    },
+    loadingSpinner: {
+      animation: 'spin 1s linear infinite'
     }
   };
 
@@ -364,6 +414,11 @@ const LoginForm = () => {
         @keyframes float {
           0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
         }
         
         input::placeholder {
@@ -386,7 +441,7 @@ const LoginForm = () => {
           transform: translateY(-1px);
         }
         
-        .submit-btn:hover {
+        .submit-btn:hover:not(:disabled) {
           transform: translateY(-2px);
           box-shadow: 0 15px 40px rgba(138, 43, 226, 0.6);
         }
@@ -416,7 +471,7 @@ const LoginForm = () => {
             </p>
           </div>
 
-          <div style={styles.loginForm}>
+          <form onSubmit={handleSubmit} style={styles.loginForm}>
             {!isLogin && (
               <>
                 <div style={styles.inputGroup}>
@@ -432,6 +487,7 @@ const LoginForm = () => {
                     placeholder="Enter your full name"
                     style={styles.formInput}
                     required
+                    disabled={loading}
                   />
                 </div>
 
@@ -448,6 +504,7 @@ const LoginForm = () => {
                       onChange={handleInputChange}
                       style={styles.formInput}
                       required
+                      disabled={loading}
                     />
                   </div>
 
@@ -462,6 +519,7 @@ const LoginForm = () => {
                       onChange={handleInputChange}
                       style={styles.selectInput}
                       required
+                      disabled={loading}
                     >
                       <option value="">Select Gender</option>
                       <option value="male">Male</option>
@@ -485,6 +543,7 @@ const LoginForm = () => {
                     placeholder="City, State/Province, Country"
                     style={styles.formInput}
                     required
+                    disabled={loading}
                   />
                 </div>
 
@@ -507,6 +566,7 @@ const LoginForm = () => {
                 placeholder="Enter your email"
                 style={styles.formInput}
                 required
+                disabled={loading}
               />
             </div>
 
@@ -523,6 +583,7 @@ const LoginForm = () => {
                 placeholder="Enter your password"
                 style={styles.formInput}
                 required
+                disabled={loading}
               />
             </div>
 
@@ -534,6 +595,7 @@ const LoginForm = () => {
                     style={styles.checkbox}
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
+                    disabled={loading}
                   />
                   Remember me
                 </label>
@@ -542,15 +604,24 @@ const LoginForm = () => {
             )}
 
             <button 
-              type="button" 
+              type="submit" 
               style={styles.submitBtn}
               className="submit-btn"
-              onClick={handleSubmit}
+              disabled={loading}
             >
-              <span style={styles.btnIcon}>⭐</span>
-              {isLogin ? 'Enter Your Portal' : 'Create Mystic Account'}
+              {loading ? (
+                <>
+                  <span style={{...styles.btnIcon, ...styles.loadingSpinner}}>⭐</span>
+                  Processing...
+                </>
+              ) : (
+                <>
+                  <span style={styles.btnIcon}>⭐</span>
+                  {isLogin ? 'Enter Your Portal' : 'Create Mystic Account'}
+                </>
+              )}
             </button>
-          </div>
+          </form>
 
           <div style={styles.formFooter}>
             <p>
@@ -559,6 +630,7 @@ const LoginForm = () => {
                 type="button" 
                 style={styles.toggleBtn}
                 onClick={() => setIsLogin(!isLogin)}
+                disabled={loading}
               >
                 {isLogin ? 'Start Your Journey' : 'Sign In'}
               </button>
@@ -571,11 +643,11 @@ const LoginForm = () => {
           </div>
 
           <div style={styles.socialLogin}>
-            <button style={styles.socialBtn} className="social-btn">
+            <button style={styles.socialBtn} className="social-btn" disabled={loading}>
               <span style={styles.socialIcon}>🌐</span>
               Continue with Google
             </button>
-            <button style={styles.socialBtn} className="social-btn">
+            <button style={styles.socialBtn} className="social-btn" disabled={loading}>
               <span style={styles.socialIcon}>📱</span>
               Continue with Facebook
             </button>
@@ -590,11 +662,11 @@ const LoginForm = () => {
 
         <div style={styles.bottomNavigation}>
           <div style={styles.navItems}>
-            <a href="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={{ ...styles.navItem, ...styles.navItemActive }} className="nav-item">🏠 Home</a>
-            <a href="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={styles.navItem} className="nav-item">❓ What is Numerology</a>
-            <a href="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={styles.navItem} className="nav-item">⭐ Why Important</a>
-            <a href="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={styles.navItem} className="nav-item">🛤️ Life Path</a>
-            <a href="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={styles.navItem} className="nav-item">🎯 Destiny Number</a>
+            <Link to="/" style={{ ...styles.navItem, ...styles.navItemActive }} className="nav-item">🏠 Home</Link>
+            <Link to="/" style={styles.navItem} className="nav-item">❓ What is Numerology</Link>
+            <Link to="/" style={styles.navItem} className="nav-item">⭐ Why Important</Link>
+            <Link to="/" style={styles.navItem} className="nav-item">🛤️ Life Path</Link>
+            <Link to="/" style={styles.navItem} className="nav-item">🎯 Destiny Number</Link>
           </div>
         </div>
       </div>

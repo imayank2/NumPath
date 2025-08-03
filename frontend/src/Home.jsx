@@ -1,6 +1,8 @@
 import React, { useState } from 'react'; 
 import { Star, Calendar, User, Target, Clock, Moon, Sun, Compass } from 'lucide-react';
 import './App2.css';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const getLifePathDescription = (number) => {
   const descriptions = {

@@ -3,7 +3,10 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import Home from "./Home";
 import Result from "./Result";
 import Registration from "./Registration";
-import MatchMaking from "./MatchMaking"; 
+import MatchMaking from "./MatchMaking";
+import UserProfile from "./UserProfile"; // Add this import
+// import Navbar from "./Navbar"; 
+
 /**
  * Main App Component with routing and shared state for form
  */
@@ -44,30 +47,33 @@ const App = () => {
   };
 
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <Home
-            formData={formData}
-            onInputChange={handleInputChange}
-            onSubmit={handleSubmit}
-          />
-        }
-      />
-      <Route
-        path="/result"
-        element={
-          <Result
-            formData={formData}
-            onReset={handleReset}
-          />
-        }
-      />
-      <Route path="/login" element={<Registration />} />
-      <Route path="/matchmaking" element={<MatchMaking />} />
-
-    </Routes>
+    <div className="App">
+      {/* <Navbar /> */}
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Home
+              formData={formData}
+              onInputChange={handleInputChange}
+              onSubmit={handleSubmit}
+            />
+          }
+        />
+        <Route
+          path="/result"
+          element={
+            <Result
+              formData={formData}
+              onReset={handleReset}
+            />
+          }
+        />
+        <Route path="/login" element={<Registration />} />
+        <Route path="/Matchmaking" element={<MatchMaking />} />
+        <Route path="/UserProfile" element={<UserProfile />} />
+      </Routes>
+    </div>
   );
 };
 
