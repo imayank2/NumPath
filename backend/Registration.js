@@ -168,6 +168,50 @@ app.post('/login', (req, res) => {
   });
 });
 
+app.post('/profile/save', verifyToken, (req, res) => {
+  const userId = req.user.userId;
+  const { phone, address, bio, occupation } = req.body;
+
+  if (!userId) return res.status(401).json({ error: "Unauthorized user" });
+
+  const checkQuery = "SELECT * FROM user_profile WHERE user_id = ?";
+  db.query(checkQuery, [userId], (err, result) => {
+    if (err) {
+      console.error("Error checking user_profile:", err);
+      return res.status(500).json({ error: "Database error" });
+    }
+
+    if (result.length > 0) {
+      // 👇 Already exists → UPDATE
+      const updateQuery = `UPDATE user_profile 
+        SET phone = ?, address = ?, bio = ?, occupation = ?, updated_at = NOW()
+        WHERE user_id = ?`;
+
+      db.query(updateQuery, [phone, address, bio, occupation, userId], (err) => {
+        if (err) {
+          console.error("Update error:", err);
+          return res.status(500).json({ error: "Failed to update profile" });
+        }
+        return res.json({ message: "Profile updated successfully" });
+      });
+
+    } else {
+      // 👇 Not exists → INSERT
+      const insertQuery = `INSERT INTO user_profile (user_id, phone, address, bio, occupation)
+        VALUES (?, ?, ?, ?, ?)`;
+
+      db.query(insertQuery, [userId, phone, address, bio, occupation], (err) => {
+        if (err) {
+          console.error("Insert error:", err);
+          return res.status(500).json({ error: "Failed to save profile" });
+        }
+        return res.json({ message: "Profile saved successfully" });
+      });
+    }
+  });
+});
+
+
 // Get Profile
 app.get('/profile', verifyToken, (req, res) => {
   const sql = "SELECT id, name, email, date_of_birth, gender, birth_place FROM signup WHERE email = ?";

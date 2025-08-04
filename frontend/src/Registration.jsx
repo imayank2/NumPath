@@ -67,11 +67,17 @@ const LoginForm = () => {
 
       // Handle successful authentication
       if (response.data.token && response.data.user) {
+
+        //save token
+        localStorage.setItem('token', response.data.token);
+
+        //save user info
+        localStorage.setItem('userData', JSON.stringify(response.data.user));
+
         handleSuccessfulAuth(response.data.user, response.data.token);
-        
         // Show success message
         alert(response.data.message || (isLogin ? 'Login successful!' : 'Registration successful!'));
-        // navigate('/');
+        navigate('/');
       } else {
         // Fallback if token structure is different
         localStorage.setItem('authToken', response.data.token || 'logged-in-' + Date.now());
