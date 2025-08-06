@@ -1,7 +1,10 @@
 import React from 'react';
 import { ChevronLeft, Star, Calendar, User } from 'lucide-react';
 import './App.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+
+
 
 const Result = ({ formData, onBack }) => {
   const today = new Date();
