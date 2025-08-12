@@ -1,25 +1,3 @@
-// // src/Navbar.js
-// import React from "react";
-// import { Link } from "react-router-dom";
-// import "./styles.css"; // optional styling
-
-// const Navbar = () => {
-//   return (
-//     <nav className="navbar">
-//       <Link to="/">Home</Link>
-//       <Link to="/login">SignUp/login</Link>
-//       <Link to="/About">About us</Link>
-//       <Link to="/MatchMaking">Match Making</Link>
-//       <Link to="/Blog">Blog</Link>
-//       <Link to="/ContactUs">Contact us</Link>
-//     </nav>
-//   );
-// };
-
-// export default Navbar;
-
-
-
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
@@ -36,6 +14,7 @@ const Navbar = () => {
           <Link to="/Blog" className="nav-link">Blog</Link>
           <Link to="/ContactUs" className="nav-link">Contact us</Link>
           <Link to="/UserProfile" className="nav-link">Profile</Link>
+          <Link to="/ChatUI" className="nav-link">Chat</Link>
 
         </div>
       </div>

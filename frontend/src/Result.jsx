@@ -1,12 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ChevronLeft, Star, Calendar, User } from 'lucide-react';
 import './App.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
-
-
+import axios from 'axios';
 
 const Result = ({ formData, onBack }) => {
+  const navigate = useNavigate();
+
+  // ✅ Check token when page loads
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      alert('You must be logged in to view this page.');
+      console.log('❌ No token found, redirecting to login');
+      navigate('/login'); // No token → go to login
+      return;
+    }
+
+    // Verify token with backend
+    axios.get('http://localhost:4000/profile', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then(res => {
+      console.log('✅ Token valid:', res.data);
+    })
+    .catch(err => {
+      console.error('❌ Token invalid:', err.response?.data || err);
+      localStorage.removeItem('authToken'); // remove bad token
+      navigate('/login'); // send to login
+    });
+  }, [navigate]);
+
+// const Result = ({ formData, onBack }) => {
   const today = new Date();
   const currentYear = today.getFullYear();
   const currentMonth = today.getMonth() + 1;

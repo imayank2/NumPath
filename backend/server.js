@@ -514,7 +514,7 @@ app.get("/dashboard", verifyToken, (req, res) => {
 // ==================
 
 // Name + DOB API (from your third server)
-app.post("/submit", (req, res) => {
+app.post("/submit", verifyToken, (req, res) => {
   const { full_name, dob } = req.body;
 
   const sql = "INSERT INTO user_dob (full_name, dob) VALUES (?, ?)";

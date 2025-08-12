@@ -37,12 +37,25 @@
   z-index: 2;
 }
 
-.navbar-links {
+.navbar-content {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+}
+
+.navbar-left {
+  display: flex;
   align-items: center;
   gap: 0;
-  height: 70px;
+  height: 100%;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 100%;
 }
 
 .nav-link {
@@ -61,6 +74,46 @@
   box-sizing: border-box;
   text-transform: uppercase;
   overflow: hidden;
+}
+
+/* Special styling for auth link */
+.auth-link {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(251, 191, 36, 0.1));
+  border-radius: 25px !important;
+  padding: 12px 20px !important;
+  font-size: 14px;
+  margin-right: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  text-transform: capitalize;
+}
+
+.auth-link:hover {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(255, 255, 255, 0.2));
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(251, 191, 36, 0.4);
+}
+
+/* Special styling for profile link */
+.profile-link {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(255, 255, 255, 0.1));
+  border-radius: 30px !important;
+  padding: 12px 24px !important;
+  font-size: 14px;
+  border: 2px solid rgba(251, 191, 36, 0.4);
+  backdrop-filter: blur(15px);
+  text-transform: capitalize;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+}
+
+.profile-link:hover {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.4), rgba(255, 255, 255, 0.3));
+  transform: translateY(-3px) scale(1.08);
+  box-shadow: 
+    0 10px 30px rgba(251, 191, 36, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border-color: rgba(251, 191, 36, 0.8);
 }
 
 .nav-link::before {
@@ -86,6 +139,12 @@
   transform: translateX(-50%);
   border-radius: 2px 2px 0 0;
   box-shadow: 0 0 20px rgba(251, 191, 36, 0.8);
+}
+
+/* Remove bottom border for special links */
+.auth-link::after,
+.profile-link::after {
+  display: none;
 }
 
 .nav-link:hover::before {
@@ -138,8 +197,8 @@
   50% { opacity: 0.8; transform: translateX(20px); }
 }
 
-/* Enhanced Hover Effects */
-.nav-link:hover {
+/* Enhanced Hover Effects for regular nav links */
+.navbar-left .nav-link:hover {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(251, 191, 36, 0.1));
   color: #fbbf24;
   transform: translateY(-4px) scale(1.02);
@@ -150,8 +209,8 @@
   border-radius: 8px 8px 0 0;
 }
 
-/* Active/Current Page Styling */
-.nav-link.active {
+/* Active/Current Page Styling for regular nav links */
+.navbar-left .nav-link.active {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(251, 191, 36, 0.15));
   color: #fbbf24;
   transform: translateY(-2px);
@@ -165,14 +224,29 @@
     padding: 18px 22px;
     font-size: 15px;
   }
+  
+  .auth-link,
+  .profile-link {
+    padding: 10px 16px !important;
+    font-size: 13px;
+  }
 }
 
 @media (max-width: 768px) {
-  .navbar-links {
-    flex-wrap: wrap;
+  .navbar-content {
+    flex-direction: column;
     height: auto;
     padding: 15px 0;
+  }
+  
+  .navbar-left {
+    flex-wrap: wrap;
     justify-content: center;
+    margin-bottom: 15px;
+  }
+  
+  .navbar-right {
+    gap: 15px;
   }
   
   .nav-link {
@@ -187,17 +261,30 @@
     display: none;
   }
   
-  .nav-link:hover {
+  .navbar-left .nav-link:hover {
     border-radius: 25px;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(251, 191, 36, 0.2));
   }
 }
 
 @media (max-width: 480px) {
-  .navbar-links {
+  .navbar-content {
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px 0;
+  }
+  
+  .navbar-left {
     flex-direction: column;
     gap: 8px;
-    padding: 20px 0;
+    width: 100%;
+  }
+  
+  .navbar-right {
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    gap: 10px;
   }
   
   .nav-link {
@@ -207,6 +294,14 @@
     border-radius: 30px;
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
+  }
+  
+  .auth-link,
+  .profile-link {
+    width: auto;
+    min-width: 120px;
+    flex: 1;
+    max-width: 140px;
   }
   
   .navbar-container {

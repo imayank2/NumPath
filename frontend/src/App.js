@@ -5,6 +5,8 @@ import Result from "./Result";
 import Registration from "./Registration";
 import MatchMaking from "./MatchMaking";
 import UserProfile from "./UserProfile"; // Add this import
+import Blog from "./Blog";
+import ChatUI from "./ChatUI";
 // import Navbar from "./Navbar"; 
 
 /**
@@ -72,6 +74,8 @@ const App = () => {
         <Route path="/login" element={<Registration />} />
         <Route path="/Matchmaking" element={<MatchMaking />} />
         <Route path="/UserProfile" element={<UserProfile />} />
+        <Route path="/Blog" element={<Blog />} />
+        <Route path="/ChatUI" element={<ChatUI />} />
       </Routes>
     </div>
   );
