@@ -109,9 +109,9 @@ ollama run mistral
 📜 License
 
 This project is licensed under the MIT License – see the LICENSE file for details.
-```yaml
+
 © 2025 Mayank Chauhan
-```
+
 
 📖 Blog Section
 The project also includes a Blog section with guides, tips, and articles on Numerology:
