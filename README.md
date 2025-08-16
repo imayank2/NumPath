@@ -114,6 +114,7 @@ This project is licensed under the MIT License – see the LICENSE file for deta
 
 
 📖 Blog Section
+
 The project also includes a Blog section with guides, tips, and articles on Numerology:
 Life Path Numbers explained
 Destiny Number guide
