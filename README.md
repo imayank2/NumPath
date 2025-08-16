@@ -25,8 +25,6 @@ It also includes a **personal AI Chatbot** powered by [Ollama](https://ollama.ai
 
 **Frontend:**  
 - React  
-- TailwindCSS / Custom CSS  
-- Lucide Icons  
 
 **Backend:**  
 - Node.js (Express.js)  
