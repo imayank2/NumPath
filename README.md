@@ -32,7 +32,7 @@ It also includes a **personal AI Chatbot** powered by [Ollama](https://ollama.ai
 - Axios  
 
 **AI (Chatbot):**  
-- [Ollama](https://ollama.ai) (running local models Mistral)  
+- [Ollama](https://ollama.ai) (running local model Mistral)  
 
 **Other Tools:**  
 - dotenv (for environment variables)  
