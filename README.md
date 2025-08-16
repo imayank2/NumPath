@@ -100,7 +100,7 @@ npm start
 ollama pull llama3
 ```
 
-4. Start the Ollama service (default runs on port 11434):
+3. Start the Ollama service (default runs on port 11434):
 ```bash
 ollama run mistral
 ```
