@@ -92,7 +92,7 @@ npm install
 npm start
 ```
 
-##4️⃣ Ollama Setup (Chatbot)
+## 4️⃣ Ollama Setup (Chatbot)
 
 1. Install Ollama → https://ollama.ai
 2. Pull a model (example mistral):
