@@ -653,10 +653,10 @@ const LoginForm = () => {
               <span style={styles.socialIcon}>🌐</span>
               Continue with Google
             </button>
-            <button style={styles.socialBtn} className="social-btn" disabled={loading}>
+            {/* <button style={styles.socialBtn} className="social-btn" disabled={loading}>
               <span style={styles.socialIcon}>📱</span>
               Continue with Facebook
-            </button>
+            </button> */}
           </div>
         </div>
 

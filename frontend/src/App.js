@@ -12,6 +12,8 @@ import ChatUI from "./ChatUI";
 /**
  * Main App Component with routing and shared state for form
  */
+
+
 const App = () => {
   const navigate = useNavigate();
 
@@ -21,6 +23,8 @@ const App = () => {
     month: "",
     year: "",
   });
+
+  
 
   // Handle input change
   const handleInputChange = (field, value) => {

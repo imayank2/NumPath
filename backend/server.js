@@ -4,17 +4,22 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
+const fetch = require("node-fetch"); // Add this for chat functionality
+const dotenv = require("dotenv");
+dotenv.config();
 // Create Express app
 const app = express();
 
+
+
 // Middleware
 app.use(cors());
+app.use(express.json());
 app.use(bodyParser.json());
 app.use("/uploads", express.static("uploads"));
 
 // Secret key for JWT
-const SECRET_KEY = "8h#9G@d92!jdH@3jhs*&1js91!";
+const SECRET_KEY = "process.env.JET_API_KEY";
 
 // Database connection
 const db = mysql.createConnection({
@@ -473,7 +478,6 @@ app.get("/profiles/:id", verifyToken, (req, res) => {
   });
 });
 
-
 // ====================
 // DASHBOARD
 // ==================
@@ -507,6 +511,176 @@ app.get("/dashboard", verifyToken, (req, res) => {
       res.status(404).json({ error: "User not found" });
     }
   });
+});
+
+// ==================
+// CHAT FUNCTIONALITY 
+// ==================
+
+// Chat endpoint - Fixed Mistral integration
+// app.post("/chat", async (req, res) => {
+//   console.log("💬 Chat request received:", req.body);
+  
+//   const { message } = req.body;
+
+//   // Validation
+//   if (!message) {
+//     return res.status(400).json({ error: "Message is required" });
+//   }
+
+//   try {
+//     console.log("🤖 Sending to NumPath:", message);
+    
+//     // Create better prompt for numerology context
+//     const numerologyPrompt = `You are a numerology expert and spiritual guide. A user asks: "${message}". 
+//     Provide a helpful, mystical, and informative response about numerology, life path numbers, destiny numbers, or spiritual guidance. 
+//     Keep the response conversational, engaging, and under 200 words. Use emojis where appropriate.`;
+
+//     const response = await fetch("http://localhost:11434/api/generate", {
+//       method: "POST",
+//       headers: { 
+//         "Content-Type": "application/json" 
+//       },
+//       body: JSON.stringify({
+//         model: "numpath-bot",
+//         prompt: numerologyPrompt,
+//         stream: false, // Important: Set to false for simpler response
+//         temperature: 0.7,
+//         max_tokens: 300
+//       })
+//     });
+
+//     console.log(" response status:", response.status);
+
+//     if (!response.ok) {
+//       throw new Error(`Mistral API error! Status: ${response.status}`);
+//     }
+
+//     const data = await response.json();
+//     console.log(" Mistral response received");
+
+//     // Send the response back
+//     res.json({ 
+//       reply: data.response || "Sorry, I couldn't generate a response.",
+//       source: "Mistral AI",
+//       timestamp: new Date().toISOString()
+//     });
+
+//   } catch (error) {
+//     console.error("Chat Error:", error.message);
+    
+//     // Return error with helpful message
+//     res.status(500).json({ 
+//       error: "Failed to connect to Mistral AI",
+//       details: error.message,
+//       solution: "Make sure Ollama is running with: ollama serve"
+//     });
+//   }
+// });
+
+// app.post("/chat", async (req, res) => {
+//   console.log("💬 Chat request received:", req.body);
+
+//   const { message } = req.body;
+
+//   if (!message) {
+//     return res.status(400).json({ error: "Message is required" });
+//   }
+
+//   try {
+//     const numerologyPrompt = `You are a numerology expert and spiritual guide. A user asks: "${message}". 
+//     Provide a helpful, mystical, and informative response about numerology, life path numbers, destiny numbers, or spiritual guidance. 
+//     Keep the response conversational, engaging, and under 200 words. Use emojis where appropriate.`;
+
+//     const response = await fetch("http://localhost:11434/api/generate", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({
+//         model: "numpath-bot",
+//         prompt: numerologyPrompt,
+//         stream: false,
+//         temperature: 0.7,
+//         num_predict: 300
+//       })
+//     });
+
+//     console.log("📡 Ollama status:", response.status);
+
+//     const text = await response.text();
+//     console.log("📦 Ollama raw response:", text);
+
+//     if (!response.ok) {
+//       return res.status(500).json({
+//         error: "Ollama API error",
+//         status: response.status,
+//         details: text
+//       });
+//     }
+
+//     const data = JSON.parse(text);
+
+//     res.json({
+//       reply: data.response || "No reply from AI",
+//       source: "Mistral AI",
+//       timestamp: new Date().toISOString()
+//     });
+
+//   } catch (error) {
+//     console.error("❌ Chat Error:", error);
+//     res.status(500).json({
+//       error: "Chat backend failed",
+//       details: error.message
+//     });
+//   }
+// });
+
+app.post("/chat", async (req, res) => {
+  try {
+    const { message } = req.body;
+    if (!message) return res.status(400).json({ error: "Message required" });
+
+    const response = await fetch("http://localhost:11434/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "numpath-bot",
+        prompt: message,
+        stream: false
+      })
+    });
+
+    const data = await response.json();
+    res.json({ reply: data.response || "No reply", source: "Mistral AI" });
+
+  } catch (err) {
+    console.error("Chat Error:", err.message);
+    res.status(500).json({ error: "Backend chat failed", details: err.message });
+  }
+});
+
+
+// Test Mistral connection
+app.get("/chat/test-mistral", async (req, res) => {
+  try {
+    const response = await fetch("http://localhost:11434/api/tags");
+    
+    if (response.ok) {
+      const models = await response.json();
+      res.json({
+        status: "✅ connection working!",
+        available_models: models.models || [],
+        test_message: "Try sending a message to /chat endpoint"
+      });
+    } else {
+      throw new Error("Ollama not responding");
+    }
+  } catch (error) {
+    res.status(500).json({
+      status: "❌  connection failed",
+      error: error.message,
+      solution: "Run: ollama serve (then: ollama pull mistral)"
+    });
+  }
 });
 
 // ==================
@@ -544,12 +718,15 @@ app.get("/health", (req, res) => {
       "POST /signup - User registration",
       "POST /login - User login",
       "GET /profile - Get user profile",
-      "POST /profile/save - Save user profile",
       "PUT /profile - Update user profile",
       "GET /profiles - Get family profiles",
       "POST /profiles - Add family profile",
+      "PUT /profiles/:id - Update family profile",
+      "DELETE /profiles/:id - Delete family profile",
+      "GET /profiles/:id - Get single profile",
       "GET /dashboard - User dashboard",
       "POST /submit - Submit name and DOB for numerology",
+      "POST /chat - AI Chat functionality",
     ],
   });
 });
@@ -572,12 +749,15 @@ app.use((req, res) => {
       "POST /signup",
       "POST /login",
       "GET /profile",
-      "POST /profile/save",
       "PUT /profile",
       "GET /profiles",
       "POST /profiles",
+      "PUT /profiles/:id",
+      "DELETE /profiles/:id",
+      "GET /profiles/:id",
       "GET /dashboard",
       "POST /submit",
+      "POST /chat",
       "GET /health",
     ],
   });
@@ -591,6 +771,7 @@ const PORT = 4000;
 app.listen(PORT, () => {
   console.log(`🚀 NumPath Server started on http://localhost:${PORT}`);
   console.log(`✨ Ready to unlock the mysteries of numbers!`);
+  console.log(`🤖 Chat functionality enabled with AI integration!`);
   console.log(`📊 Available endpoints:`);
   console.log(`   POST /signup - User registration`);
   console.log(`   POST /login - User login`);
@@ -603,5 +784,6 @@ app.listen(PORT, () => {
   console.log(`   DELETE /profiles/:id - Delete specific profile`);
   console.log(`   GET /dashboard - User dashboard`);
   console.log(`   POST /submit - Submit name and DOB`);
+  console.log(`   POST /chat - AI Chat functionality`);
   console.log(`   GET /health - Health check`);
 });

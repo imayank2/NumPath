@@ -1,18 +1,3 @@
-/* ========== GLOBAL STYLES ========== */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: #0f1419;
-  color: #ffffff;
-}
 
 /* ========== PROFESSIONAL GRADIENT BACKGROUNDS ========== */
 .bg-gradient-primary {
@@ -580,3 +565,5 @@ body {
   text-align: center;
   text-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
 }
+
+
