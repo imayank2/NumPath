@@ -106,14 +106,14 @@ ollama run mistral
 ```
 
 
-##📜 License
+## 📜 License
 
 This project is licensed under the MIT License – see the LICENSE file for details.
 
 © 2025 Mayank Chauhan
 
 
-##📖 Blog Section
+## 📖 Blog Section
 
 The project also includes a Blog section with guides, tips, and articles on Numerology:
 Life Path Numbers explained
@@ -123,7 +123,7 @@ Zodiac insights
 You can easily extend this by adding more blog posts in the frontend pages/BlogPage.jsx.
 
 
-##🌟 Support
+## 🌟 Support
 
 If you like this project, give it a ⭐ on GitHub!
 Feel free to open issues or suggest new features.
