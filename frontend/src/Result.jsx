@@ -21,7 +21,7 @@ const Result = ({ formData }) => {
     }
 
     // Verify token with backend
-    axios.get('http://localhost:4000/profile', {
+    axios.get('https://numpath.onrender.com/profile', {
       headers: {
         Authorization: `Bearer ${token}`
       }
