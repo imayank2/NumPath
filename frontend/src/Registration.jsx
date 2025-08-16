@@ -57,8 +57,8 @@ const LoginForm = () => {
     setLoading(true);
 
     const apiUrl = isLogin 
-      ? 'http://localhost:4000/login'
-      : 'http://localhost:4000/signup';
+      ? 'https://numpath.onrender.com/login'
+      : 'https://numpath.onrender.com/signup';
 
     try {
       const response = await axios.post(apiUrl, formData);
