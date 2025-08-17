@@ -16,7 +16,7 @@ export default function ChatBot() {
     setMessages(prev => [...prev, { role: "user", text: userMessage }]);
 
     try {
-      const response = await fetch("https://numpath.onrender.com/chat", {
+      const response = await fetch("http://localhost:4000/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
