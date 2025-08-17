@@ -21,7 +21,7 @@ const Result = ({ formData }) => {
     }
 
     // Verify token with backend
-    axios.get('http://localhost:4000/profile', {
+    axios.get(`${process.env.REACT_APP_API_URL}/profile`, {
       headers: {
         Authorization: `Bearer ${token}`
       }

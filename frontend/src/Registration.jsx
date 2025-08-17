@@ -57,8 +57,8 @@ const LoginForm = () => {
     setLoading(true);
 
     const apiUrl = isLogin 
-      ? 'http://localhost:4000/login'
-      : 'http://localhost:4000/signup';
+      ? `${process.env.REACT_APP_API_URL}/login`
+      : `${process.env.REACT_APP_API_URL}/signup`;
 
     try {
       const response = await axios.post(apiUrl, formData);
