@@ -176,75 +176,110 @@ app.post("/signup", async (req, res) => {
 });
 
 // User login
-app.post("/login", async (req, res) => {
+// app.post("/login", async (req, res) => {
+//   const { email, password } = req.body;
+
+//   if (!email || !password) {
+//     return res.status(400).json({
+//       error: "Email and password are required",
+//     });
+//   }
+
+//   const loginSql = "SELECT * FROM login WHERE email = ?";
+//   db.query(loginSql, [email], async (err, loginResult) => {
+//     if (err) {
+//       console.error("Login Error:", err);
+//       return res.status(500).json({ error: "Login failed" });
+//     }
+
+//     if (loginResult.length === 0) {
+//       return res.status(401).json({ error: "Invalid email or password" });
+//     }
+
+//     const loginUser = loginResult[0];
+//     const match = await bcrypt.compare(password, loginUser.password);
+
+//     if (!match) {
+//       return res.status(401).json({ error: "Invalid email or password" });
+//     }
+
+//     // Get user details from signup table
+//     const userDetailsSql = `
+//       SELECT id, name, email, date_of_birth, gender, birth_place 
+//       FROM signup WHERE email = ?
+//     `;
+
+//     db.query(userDetailsSql, [email], (err, signupResult) => {
+//       if (err) {
+//         console.error("User Details Error:", err);
+//         return res.status(500).json({
+//           error: "Login successful but failed to fetch user details",
+//         });
+//       }
+
+//       const userDetails = signupResult[0] || {};
+
+//       // Create JWT token
+//       const token = jwt.sign(
+//         {
+//           userId: userDetails.id || null,
+//           email: email,
+//           name: userDetails.name || "User",
+//         },
+//         SECRET_KEY,
+//         { expiresIn: "24h" }
+//       );
+
+//       res.json({
+//         message: "Login successful! Welcome back to NumPath!",
+//         token,
+//         user: {
+//           id: userDetails.id,
+//           name: userDetails.name,
+//           email: userDetails.email,
+//           dateOfBirth: userDetails.date_of_birth,
+//           birthPlace: userDetails.birth_place,
+//           gender: userDetails.gender,
+//         },
+//       });
+//     });
+//   });
+// });
+
+app.post("/login", (req, res) => {
   const { email, password } = req.body;
 
-  if (!email || !password) {
-    return res.status(400).json({
-      error: "Email and password are required",
-    });
-  }
-
-  const loginSql = "SELECT * FROM login WHERE email = ?";
-  db.query(loginSql, [email], async (err, loginResult) => {
+  const sql = "SELECT * FROM users WHERE email = ?";
+  db.query(sql, [email], (err, result) => {
     if (err) {
-      console.error("Login Error:", err);
-      return res.status(500).json({ error: "Login failed" });
+      console.error("❌ Error executing SQL:", err);
+      return res.status(500).json({ success: false, message: "Database error" });
     }
 
-    if (loginResult.length === 0) {
-      return res.status(401).json({ error: "Invalid email or password" });
+    if (result.length === 0) {
+      return res.status(401).json({ success: false, message: "User not found" });
     }
 
-    const loginUser = loginResult[0];
-    const match = await bcrypt.compare(password, loginUser.password);
+    const user = result[0];
 
-    if (!match) {
-      return res.status(401).json({ error: "Invalid email or password" });
+    // Check password
+    if (user.password !== password) {
+      return res.status(401).json({ success: false, message: "Invalid password" });
     }
 
-    // Get user details from signup table
-    const userDetailsSql = `
-      SELECT id, name, email, date_of_birth, gender, birth_place 
-      FROM signup WHERE email = ?
-    `;
-
-    db.query(userDetailsSql, [email], (err, signupResult) => {
-      if (err) {
-        console.error("User Details Error:", err);
-        return res.status(500).json({
-          error: "Login successful but failed to fetch user details",
-        });
+    // ✅ Login success
+    return res.status(200).json({
+      success: true,
+      message: "Login successful 🎉",
+      user: {
+        id: user.id,
+        email: user.email,
+        fullName: user.fullName
       }
-
-      const userDetails = signupResult[0] || {};
-
-      // Create JWT token
-      const token = jwt.sign(
-        {
-          userId: userDetails.id || null,
-          email: email,
-          name: userDetails.name || "User",
-        },
-        SECRET_KEY,
-        { expiresIn: "24h" }
-      );
-
-      res.json({
-        message: "Login successful! Welcome back to NumPath!",
-        token,
-        user: {
-          id: userDetails.id,
-          name: userDetails.name,
-          email: userDetails.email,
-          dateOfBirth: userDetails.date_of_birth,
-          birthPlace: userDetails.birth_place,
-          gender: userDetails.gender,
-        },
-      });
     });
   });
 });
+
 
 // ==================
 // PROFILE ROUTES
