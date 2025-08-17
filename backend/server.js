@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.use("/uploads", express.static("uploads"));
 
 // Secret key for JWT
-const SECRET_KEY = "process.env.JET_API_KEY";
+const SECRET_KEY = process.env.JET_API_KEY;
 
 // Database connection
 const db = mysql.createConnection({
@@ -513,126 +513,6 @@ app.get("/dashboard", verifyToken, (req, res) => {
   });
 });
 
-// ==================
-// CHAT FUNCTIONALITY 
-// ==================
-
-// Chat endpoint - Fixed Mistral integration
-// app.post("/chat", async (req, res) => {
-//   console.log("💬 Chat request received:", req.body);
-  
-//   const { message } = req.body;
-
-//   // Validation
-//   if (!message) {
-//     return res.status(400).json({ error: "Message is required" });
-//   }
-
-//   try {
-//     console.log("🤖 Sending to NumPath:", message);
-    
-//     // Create better prompt for numerology context
-//     const numerologyPrompt = `You are a numerology expert and spiritual guide. A user asks: "${message}". 
-//     Provide a helpful, mystical, and informative response about numerology, life path numbers, destiny numbers, or spiritual guidance. 
-//     Keep the response conversational, engaging, and under 200 words. Use emojis where appropriate.`;
-
-//     const response = await fetch("http://localhost:11434/api/generate", {
-//       method: "POST",
-//       headers: { 
-//         "Content-Type": "application/json" 
-//       },
-//       body: JSON.stringify({
-//         model: "numpath-bot",
-//         prompt: numerologyPrompt,
-//         stream: false, // Important: Set to false for simpler response
-//         temperature: 0.7,
-//         max_tokens: 300
-//       })
-//     });
-
-//     console.log(" response status:", response.status);
-
-//     if (!response.ok) {
-//       throw new Error(`Mistral API error! Status: ${response.status}`);
-//     }
-
-//     const data = await response.json();
-//     console.log(" Mistral response received");
-
-//     // Send the response back
-//     res.json({ 
-//       reply: data.response || "Sorry, I couldn't generate a response.",
-//       source: "Mistral AI",
-//       timestamp: new Date().toISOString()
-//     });
-
-//   } catch (error) {
-//     console.error("Chat Error:", error.message);
-    
-//     // Return error with helpful message
-//     res.status(500).json({ 
-//       error: "Failed to connect to Mistral AI",
-//       details: error.message,
-//       solution: "Make sure Ollama is running with: ollama serve"
-//     });
-//   }
-// });
-
-// app.post("/chat", async (req, res) => {
-//   console.log("💬 Chat request received:", req.body);
-
-//   const { message } = req.body;
-
-//   if (!message) {
-//     return res.status(400).json({ error: "Message is required" });
-//   }
-
-//   try {
-//     const numerologyPrompt = `You are a numerology expert and spiritual guide. A user asks: "${message}". 
-//     Provide a helpful, mystical, and informative response about numerology, life path numbers, destiny numbers, or spiritual guidance. 
-//     Keep the response conversational, engaging, and under 200 words. Use emojis where appropriate.`;
-
-//     const response = await fetch("http://localhost:11434/api/generate", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({
-//         model: "numpath-bot",
-//         prompt: numerologyPrompt,
-//         stream: false,
-//         temperature: 0.7,
-//         num_predict: 300
-//       })
-//     });
-
-//     console.log("📡 Ollama status:", response.status);
-
-//     const text = await response.text();
-//     console.log("📦 Ollama raw response:", text);
-
-//     if (!response.ok) {
-//       return res.status(500).json({
-//         error: "Ollama API error",
-//         status: response.status,
-//         details: text
-//       });
-//     }
-
-//     const data = JSON.parse(text);
-
-//     res.json({
-//       reply: data.response || "No reply from AI",
-//       source: "Mistral AI",
-//       timestamp: new Date().toISOString()
-//     });
-
-//   } catch (error) {
-//     console.error("❌ Chat Error:", error);
-//     res.status(500).json({
-//       error: "Chat backend failed",
-//       details: error.message
-//     });
-//   }
-// });
 
 app.post("/chat", async (req, res) => {
   try {
