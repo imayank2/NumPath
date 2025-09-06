@@ -52,55 +52,127 @@ const LoginForm = () => {
     navigate('/');
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
 
-    const apiUrl = isLogin 
-      ? `${process.env.REACT_APP_API_URL}/login`
-      : `${process.env.REACT_APP_API_URL}/signup`;
+  //   const apiUrl = isLogin 
+  //     ? `${process.env.REACT_APP_API_URL}/login`
+  //     : `${process.env.REACT_APP_API_URL}/signup`;
 
-    try {
-      const response = await axios.post(apiUrl, formData);
+  //   try {
+  //     const response = await axios.post(apiUrl, formData);
 
-      console.log("Response:", response.data);
+  //     console.log("Response:", response.data);
 
-      // Handle successful authentication
-      if (response.data.token && response.data.user) {
+  //     // Handle successful authentication
+  //     if (response.data.token && response.data.user) {
 
-        //save token
-        localStorage.setItem('token', response.data.token);
+  //       //save token
+  //       localStorage.setItem('token', response.data.token);
 
-        //save user info
-        localStorage.setItem('userData', JSON.stringify(response.data.user));
+  //       //save user info
+  //       localStorage.setItem('userData', JSON.stringify(response.data.user));
 
-        handleSuccessfulAuth(response.data.user, response.data.token);
-        // Show success message
-        alert(response.data.message || (isLogin ? 'Login successful!' : 'Registration successful!'));
-        navigate('/');
-      } else {
-        // Fallback if token structure is different
-        localStorage.setItem('authToken', response.data.token || 'logged-in-' + Date.now());
-        localStorage.setItem('userData', JSON.stringify({
-          name: formData.fullName || 'User',
-          email: formData.email,
-          dateOfBirth: formData.dateOfBirth,
-          gender: formData.gender,
-          birthPlace: formData.birthPlace
-        }));
+  //       handleSuccessfulAuth(response.data.user, response.data.token);
+  //       // Show success message
+  //       alert(response.data.message || (isLogin ? 'Login successful!' : 'Registration successful!'));
+  //       navigate('/');
+  //     } else {
+  //       // Fallback if token structure is different
+  //       localStorage.setItem('authToken', response.data.token || 'logged-in-' + Date.now());
+  //       localStorage.setItem('userData', JSON.stringify({
+  //         name: formData.fullName || 'User',
+  //         email: formData.email,
+  //         dateOfBirth: formData.dateOfBirth,
+  //         gender: formData.gender,
+  //         birthPlace: formData.birthPlace
+  //       }));
         
-        alert(response.data.message);
-        navigate('/');
-      }
+  //       alert(response.data.message);
+  //       navigate('/');
+  //     }
 
-    } catch (error) {
-      console.error("API Error:", error.response?.data || error.message);
-      alert(error.response?.data?.error || "Something went wrong");
-    } finally {
-      setLoading(false);
+  //   } catch (error) {
+  //     console.error("API Error:", error.response?.data || error.message);
+  //     alert(error.response?.data?.error || "Something went wrong");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+
+  // Updated Registration.jsx for local development
+// Change only the API URL part:
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+
+  const cleanedData = {};
+  Object.keys(formData).forEach(key => {
+    if (formData[key] && formData[key].trim() !== '') {
+      cleanedData[key] = formData[key];
     }
-  };
+  });
+  // Use local development API URL
+  const apiUrl = isLogin 
+    ? `http://localhost:4000/login`
+    : `http://localhost:4000/signup`;
 
+  try {
+    console.log("Sending request to:", apiUrl);
+    console.log("With cleaned data:", cleanedData);
+    console.log("With data:", formData);
+    
+    const response = await axios.post(apiUrl, cleanedData);
+
+    console.log("Response:", response.data);
+
+    // Handle successful authentication
+    if (response.data.token && response.data.user) {
+      // Save token
+      localStorage.setItem('token', response.data.token);
+
+      // Save user info
+      localStorage.setItem('userData', JSON.stringify(response.data.user));
+
+      handleSuccessfulAuth(response.data.user, response.data.token);
+      
+      // Show success message
+      alert(response.data.message || (isLogin ? 'Login successful!' : 'Registration successful!'));
+      navigate('/');
+    } else {
+      // Fallback if token structure is different
+      localStorage.setItem('authToken', response.data.token || 'logged-in-' + Date.now());
+      localStorage.setItem('userData', JSON.stringify({
+        name: formData.fullName || 'User',
+        email: formData.email,
+        dateOfBirth: formData.dateOfBirth,
+        gender: formData.gender,
+        birthPlace: formData.birthPlace
+      }));
+      
+      alert(response.data.message);
+      navigate('/');
+    }
+
+  } catch (error) {
+    console.error("API Error:", error.response?.data || error.message);
+    console.error("Full error:", error);
+    
+    // More detailed error handling for local development
+    if (error.code === 'ECONNREFUSED') {
+      alert("Cannot connect to server. Make sure the backend server is running on http://localhost:4000");
+    } else if (error.response?.status === 500) {
+      alert(error.response?.data?.error || "Server error occurred. Check the server console for details.");
+    } else {
+      alert(error.response?.data?.error || "Something went wrong. Please try again.");
+    }
+  } finally {
+    setLoading(false);
+  }
+};
   const styles = {
     loginContainer: {
       minHeight: '100vh',

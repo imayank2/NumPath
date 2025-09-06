@@ -7,7 +7,7 @@ const UserProfile = () => {
   const [activeTab, setActiveTab] = useState('myProfile');
   const [isEditing, setIsEditing] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
-  const [familyProfiles, setFamilyProfiles] = useState([]);
+  const [familyProfiles, setFamilyProfiles] = useState([]); // Ensure it's initialized as empty array
   const [showModal, setShowModal] = useState(false);
   const [editingProfileId, setEditingProfileId] = useState(null);
   const [alerts, setAlerts] = useState({
@@ -131,14 +131,19 @@ const UserProfile = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setFamilyProfiles(data.profiles);
+        // Backend returns array directly, not wrapped in object
+        setFamilyProfiles(Array.isArray(data) ? data : []);
       } else {
         const errorData = await response.json();
         showAlert('family', errorData.error || 'Failed to load profiles', 'error');
+        // Set empty array on error to prevent undefined issues
+        setFamilyProfiles([]);
       }
     } catch (error) {
       console.error('Load family profiles error:', error);
       showAlert('family', 'Network error occurred', 'error');
+      // Set empty array on error to prevent undefined issues
+      setFamilyProfiles([]);
     }
   };
 
@@ -235,6 +240,10 @@ const UserProfile = () => {
         : `${API_BASE}/profiles`;
       const method = editingProfileId ? 'PUT' : 'POST';
 
+      console.log('Sending request to:', url);
+      console.log('Method:', method);
+      console.log('Data:', { name, dob, tim, place });
+
       const response = await fetch(url, {
         method,
         headers: {
@@ -244,13 +253,25 @@ const UserProfile = () => {
         body: JSON.stringify({ name, dob, tim, place })
       });
 
+      console.log('Response status:', response.status);
+
       if (response.status === 401) {
         localStorage.removeItem('authToken');
         navigate('/login');
         return;
       }
 
-      const data = await response.json();
+      let data;
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        data = await response.json();
+      } else {
+        const textResponse = await response.text();
+        console.log('Non-JSON response:', textResponse);
+        data = { error: 'Server returned non-JSON response' };
+      }
+
+      console.log('Response data:', data);
 
       if (response.ok) {
         const message = editingProfileId 
@@ -260,11 +281,12 @@ const UserProfile = () => {
         setShowModal(false);
         loadFamilyProfiles();
       } else {
-        showAlert('modal', data.error || 'Operation failed', 'error');
+        const errorMessage = data.error || data.message || `Server error (${response.status})`;
+        showAlert('modal', errorMessage, 'error');
       }
     } catch (error) {
       console.error('Save profile error:', error);
-      showAlert('modal', 'Network error occurred', 'error');
+      showAlert('modal', `Network error: ${error.message}`, 'error');
     }
   };
 
@@ -365,7 +387,7 @@ const UserProfile = () => {
               className={`tab-btn ${activeTab === 'familyFriends' ? 'active' : ''}`}
               onClick={() => setActiveTab('familyFriends')}
             >
-              👥 Family & Friends ({familyProfiles.length})
+              👥 Family & Friends ({familyProfiles?.length || 0})
             </button>
           </div>
 
@@ -458,7 +480,7 @@ const UserProfile = () => {
                 <Alert alert={alerts.family} />
                 
                 <div className="profiles-grid">
-                  {familyProfiles.length === 0 ? (
+                  {!familyProfiles || familyProfiles.length === 0 ? (
                     <p style={{textAlign: 'center', opacity: 0.7, gridColumn: '1/-1'}}>
                       No family or friend profiles added yet.
                     </p>
