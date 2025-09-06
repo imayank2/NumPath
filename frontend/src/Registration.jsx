@@ -117,8 +117,8 @@ const handleSubmit = async (e) => {
   });
   // Use local development API URL
   const apiUrl = isLogin 
-    ? `https://numpath-frontend.onrender.com/login`
-    : `https://numpath-frontend.onrender.com/signup`;
+    ? `https://numpath-backend.onrender.com/login`
+    : `https://numpath-backend.onrender.com/signup`;
 
   try {
     console.log("Sending request to:", apiUrl);
