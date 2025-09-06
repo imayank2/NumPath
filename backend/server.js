@@ -25,10 +25,9 @@ const app = express();
 
 // Enable CORS for local development
 app.use(cors({
-  origin: ['https://numpath-frontend.onrender.com'],
+  origin: "https://numpath-frontend.onrender.com",
   credentials: true
 }));
-
 // Parse JSON data
 app.use(express.json({ limit: '10mb' }));
 app.use(bodyParser.json());
